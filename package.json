@@ -1,11 +1,11 @@
 {
-  "name": "mcp-excalidraw-server",
-  "version": "1.0.2",
-  "description": "Advanced MCP server for Excalidraw with real-time canvas, WebSocket sync, and comprehensive diagram management",
+  "name": "mcp-plait-server",
+  "version": "0.0.1",
+  "description": "Advanced MCP server for Plait with real-time canvas, WebSocket sync, and comprehensive diagram management",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
-    "mcp-excalidraw-server": "dist/index.js"
+    "mcp-plait-server": "dist/index.js"
   },
   "scripts": {
     "start": "npm run build:server && node dist/index.js",
@@ -25,12 +25,12 @@
     "@drawnix/drawnix": "^0.3.1",
     "@plait-board/react-board": "^0.3.1",
     "@plait-board/react-text": "^0.3.1",
-    "@plait/common": "^0.86.1",
-    "@plait/core": "^0.86.1",
-    "@plait/draw": "^0.86.1",
-    "@plait/layouts": "^0.86.1",
-    "@plait/mind": "^0.86.1",
-    "@plait/text-plugins": "^0.86.1",
+    "@plait/common": "^0.88.1",
+    "@plait/core": "^0.88.1",
+    "@plait/draw": "^0.88.1",
+    "@plait/layouts": "^0.88.1",
+    "@plait/mind": "^0.88.1",
+    "@plait/text-plugins": "^0.88.1",
     "@modelcontextprotocol/sdk": "latest",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",

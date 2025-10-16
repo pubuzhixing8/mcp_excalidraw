@@ -18,7 +18,7 @@ const logger: winston.Logger = winston.createLogger({
     }),
 
     new winston.transports.File({
-      filename: 'excalidraw.log',    // all levels to file
+      filename: 'plait.log',    // all levels to file
       level: 'debug'
     })
   ]

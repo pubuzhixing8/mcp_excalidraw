@@ -1,8 +1,8 @@
 {
   "mcpServers": {
-    "mcp_excalidraw": {
+    "mcp_plait": {
       "command": "npx",
-      "args": ["-y", "excalidraw-mcp"]
+      "args": ["-y", "plait-mcp"]
     }
   }
 }
