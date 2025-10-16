@@ -7,6 +7,8 @@ import {
   ExcalidrawElement
 } from '@excalidraw/excalidraw'
 import '@excalidraw/excalidraw/index.css'
+import DrawnixWrapper from './DrawnixWrapper';
+import { PlaitBoard, PlaitElement } from '@plait/core';
 
 // Type definitions
 interface ServerElement {
@@ -127,6 +129,8 @@ const validateAndFixBindings = (elements: Partial<ExcalidrawElement>[]): Partial
 }
 
 function App(): JSX.Element {
+  const boardRef = useRef<PlaitBoard | null>(null);
+  const [elements, setElements] = useState<PlaitElement[]>([]);
   const [excalidrawAPI, setExcalidrawAPI] = useState<ExcalidrawAPIRefValue | null>(null)
   const [isConnected, setIsConnected] = useState<boolean>(false)
   const websocketRef = useRef<WebSocket | null>(null)
@@ -443,14 +447,10 @@ function App(): JSX.Element {
 
       {/* Canvas Container */}
       <div className="canvas-container">
-        <Excalidraw
-          excalidrawAPI={(api: ExcalidrawAPIRefValue) => setExcalidrawAPI(api)}
-          initialData={{
-            elements: [],
-            appState: {
-              theme: 'light',
-              viewBackgroundColor: '#ffffff'
-            }
+        <DrawnixWrapper
+          elements={elements}
+          afterInit={(board: PlaitBoard) => {
+            boardRef.current = board;
           }}
         />
       </div>
