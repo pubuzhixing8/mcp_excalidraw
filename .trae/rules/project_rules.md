@@ -1,4 +1,4 @@
-<!-- Use this rule when generating a diagram with the exalidraw MCP
+<!-- Use this rule when generating a diagram with the plait MCP
 
 - Use the default (hand writing front)
 - Create elements one by one, not in batch. Connect blocks with arrows only after the blocks exist

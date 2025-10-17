@@ -135,7 +135,7 @@ const convertPlaitElement = (
     return {
       ...element,
       id: idCreator(),
-      text: buildText(element.text || ""),
+      text: buildText(element.text || "", element.textAlign || 'center'),
     } as PlaitGeometry;
   } else if (element.type === "arrow-line") {
     return {

@@ -26,6 +26,7 @@ import {
   ArrowLineShapes,
   GeometryShapes,
   ArrowLineMarkerType,
+  TextAlign,
 } from "./plait-types.js";
 import fetch from "node-fetch";
 
@@ -128,6 +129,10 @@ const tools: Tool[] = [
           enum: Object.values(GeometryShapes),
         },
         text: { type: "string" },
+        textAlign: {
+          type: "string",
+          enum: Object.values(TextAlign),
+        },
         fill: { type: "string" },
         strokeColor: { type: "string" },
         strokeWidth: { type: "number" },
@@ -137,7 +142,7 @@ const tools: Tool[] = [
         },
         autoSize: { type: "boolean" },
       },
-      required: ["type", "points", "text", "shape"],
+      required: ["type", "points", "text", "shape", "textAlign"],
     },
   },
   {

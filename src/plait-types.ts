@@ -6,6 +6,12 @@ export enum StrokeStyle {
   dotted = "dotted",
 }
 
+export enum TextAlign {
+  left = "left",
+  center = "center",
+  right = "right",
+}
+
 export enum ArrowLineShapes {
   straight = "straight",
   curve = "curve",
