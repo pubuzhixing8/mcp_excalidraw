@@ -18,6 +18,10 @@ export enum ArrowLineShapes {
   elbow = "elbow",
 }
 
+export enum FreehandShapes {
+  feltTipPen = "feltTipPen"
+}
+
 export enum GeometryShapes {
   rectangle = "rectangle",
   ellipse = "ellipse",
@@ -91,11 +95,12 @@ export type PlaitDrawElement =
   | PlaitDrawGeometryElement
   | PlaitDrawArrowLineElement;
 
-export type PlaitElementType = "geometry" | "arrow-line";
+export type PlaitElementType = "geometry" | "arrow-line" | "freehand";
 
 export const PLAIT_ELEMENT_TYPES: Record<string, PlaitElementType> = {
   GEOMETRY: "geometry",
   ARROW_LINE: "arrow-line",
+  FREEHAND: "freehand",
 } as const;
 
 export interface ServerElement extends Omit<PlaitDrawElementBase, "id"> {

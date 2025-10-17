@@ -4,6 +4,8 @@ import { idCreator, PlaitBoard, PlaitElement, Transforms } from "@plait/core";
 import { buildText } from "@plait/common";
 import { PlaitGeometry, PlaitArrowLine } from "@plait/draw";
 
+
+
 // Type definitions
 interface ServerElement {
   id: string;
@@ -135,7 +137,7 @@ const convertPlaitElement = (
     return {
       ...element,
       id: idCreator(),
-      text: buildText(element.text || "", element.textAlign || 'center'),
+      text: buildText(element.text || "", element.textAlign || "center"),
     } as PlaitGeometry;
   } else if (element.type === "arrow-line") {
     return {
@@ -146,6 +148,11 @@ const convertPlaitElement = (
         text: buildText(arrowLine.text || ""),
       })),
     } as PlaitArrowLine;
+  } else if (element.type === "freehand") {
+    return {
+      ...element,
+      id: idCreator(),
+    } as any;
   }
 };
 

@@ -27,6 +27,7 @@ import {
   GeometryShapes,
   ArrowLineMarkerType,
   TextAlign,
+  FreehandShapes,
 } from "./plait-types.js";
 import fetch from "node-fetch";
 
@@ -202,6 +203,28 @@ const tools: Tool[] = [
       required: ["type", "points", "shape", "texts"],
     },
   },
+  {
+    name: "create_freehand_element",
+    description: `Create a new Plait Draw Freehand element, only support feltTipPen shape.
+    There can be multiple texts on a line. The position of the text on the line is represented by position(0-1), usually 0.5 means it is in the middle..`,
+    inputSchema: {
+      type: "object",
+      properties: {
+        type: z.literal("freehand"),
+        points: {
+          type: "array",
+          items: z.tuple([z.number(), z.number()]),
+        },
+        shape: {
+          type: "string",
+          enum: Object.values(FreehandShapes),
+        },
+        strokeColor: { type: "string" },
+        strokeWidth: { type: "number" },
+      },
+      required: ["type", "points", "shape"],
+    },
+  },
 ];
 
 // Initialize MCP server
@@ -236,7 +259,8 @@ server.setRequestHandler(
 
       switch (name) {
         case "create_geometry_element":
-        case "create_arrow_line_element": {
+        case "create_arrow_line_element":
+        case "create_freehand_element": {
           const params = args as unknown as ServerElement;
           if (
             name === "create_arrow_line_element" &&
@@ -245,6 +269,18 @@ server.setRequestHandler(
             throw new Error(
               "Failed to create element: type must be arrow-line"
             );
+          }
+          if (
+            name === "create_freehand_element" &&
+            params.type !== "freehand"
+          ) {
+            throw new Error("Failed to create element: type must be freehand");
+          }
+          if (
+            name === "create_geometry_element" &&
+            params.type !== "geometry"
+          ) {
+            throw new Error("Failed to create element: type must be geometry");
           }
           logger.debug("Creating element via MCP", { type: params.type });
           // Create element directly on HTTP server (no local storage)
