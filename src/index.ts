@@ -120,6 +120,11 @@ const tools: Tool[] = [
     inputSchema: {
       type: "object",
       properties: {
+        id: {
+          type: "string",
+          description:
+            "The unique identifier of the element, 5 characters in ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz,",
+        },
         type: z.literal("geometry"),
         points: {
           type: "array",
@@ -155,6 +160,11 @@ const tools: Tool[] = [
     If the two graphs have two-way arrows, you need to set the two lines not to overlap.
     You need to choose the appropriate arrow shape according to different scenarios, curve is suitable for some illustrative scenarios, and elbow is suitable for standard flowcharts.`,
     inputSchema: {
+      id: {
+        type: "string",
+        description:
+          "The unique identifier of the element, 5 characters in ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz,",
+      },
       type: "object",
       properties: {
         type: z.literal("arrow-line"),
@@ -186,9 +196,25 @@ const tools: Tool[] = [
         source: {
           type: "object",
           properties: {
+            boundId: {
+              type: "string",
+              description:
+                "线的起始位置连着的元素的id，如果起点没有连着其它元素，则不填",
+            },
+            connection: {
+              type: "array",
+              items: { type: "number" },
+              minItems: 2,
+              maxItems: 2,
+              description: `该线条的起点连接元素的连接点，格式为 [x, y]， x 取值只能是 0 或 0.5 或 1， y 取值只能是 0 或 0.5 或 1，
+                    [0,0] 表示起点连接元素的左上角，[0,1] 表示起点连接元素的左下角，[1,0] 表示起点连接元素的右上角，[1,1] 表示起点连接元素的右下角，
+                    [0,0.5] 表示起点连接元素的左中，[1,0.5] 表示起点连接元素的右中，[0.5,0] 表示起点连接元素的上中，[0.5,1] 表示起点连接元素的下中，
+                    当 boundId 有值时，必填。`,
+            },
             marker: {
               type: "string",
               enum: Object.values(ArrowLineMarkerType),
+              description: `该线条的起点箭头类型，有箭头代表着流动方向，如果是从开头到结尾的单方向只需要在 target 中设置 marker，source 设置为 node 就行，只有双向流通的逻辑才需要在 source 中设置 marker。`,
             },
           },
           required: ["marker"],
@@ -196,9 +222,25 @@ const tools: Tool[] = [
         target: {
           type: "object",
           properties: {
+            boundId: {
+              type: "string",
+              description:
+                "线的终点连着的元素的id，如果终点没有连着其它元素，则不填",
+            },
+            connection: {
+              type: "array",
+              items: { type: "number" },
+              minItems: 2,
+              maxItems: 2,
+              description: `该线条的终点连接元素的连接点，格式为 [x, y]， x 取值只能是 0 或 0.5 或 1， y 取值只能是 0 或 0.5 或 1，
+                    [0,0] 表示终点连接元素的左上角，[0,1] 表示终点连接元素的左下角，[1,0] 表示终点连接元素的右上角，[1,1] 表示终点连接元素的右下角，
+                    [0,0.5] 表示终点连接元素的左中，[1,0.5] 表示终点连接元素的右中，[0.5,0] 表示终点连接元素的上中，[0.5,1] 表示终点连接元素的下中，
+                    当 boundId 有值时，必填。`,
+            },
             marker: {
               type: "string",
               enum: Object.values(ArrowLineMarkerType),
+              description: `该线条的终点箭头类型，有箭头代表着流动方向，如果箭头线的方向从开头到结尾的单方向只需要在 target 中设置 marker，如果不需要特殊表达从开始到结尾的方向设置 marker 为 node 就行。`,
             },
           },
           required: ["marker"],
@@ -212,6 +254,11 @@ const tools: Tool[] = [
     description: `Create a new Plait Draw Freehand element, only support feltTipPen shape.
     There can be multiple texts on a line. The position of the text on the line is represented by position(0-1), usually 0.5 means it is in the middle..`,
     inputSchema: {
+      id: {
+        type: "string",
+        description:
+          "The unique identifier of the element, 5 characters in ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz,",
+      },
       type: "object",
       properties: {
         type: z.literal("freehand"),
@@ -266,6 +313,9 @@ server.setRequestHandler(
         case "create_arrow_line_element":
         case "create_freehand_element": {
           const params = args as unknown as ServerElement;
+          if (!params.id) {
+            throw new Error("Failed to create element: id is required");
+          }
           if (
             name === "create_arrow_line_element" &&
             params.type !== "arrow-line"

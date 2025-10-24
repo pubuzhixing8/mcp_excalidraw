@@ -132,7 +132,7 @@ app.post("/api/elements", (req: Request, res: Response) => {
     logger.info("Creating element via API", { type: params.type });
 
     // Prioritize passed ID (for MCP sync), otherwise generate new ID
-    const id = params.id || generateId();
+    const id = params.id;
     const element = {
       ...params,
       id: id,
