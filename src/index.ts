@@ -124,6 +124,8 @@ const tools: Tool[] = [
         points: {
           type: "array",
           items: z.tuple([z.number(), z.number()]),
+          description: `The position of the element on the canvas, such as [[100, 100], [200, 200]]. 
+          If the shape is text, then autoSize is true, and pointers should point to the top left and bottom right corners after the text is rendered`,
         },
         shape: {
           type: "string",
@@ -149,7 +151,9 @@ const tools: Tool[] = [
   {
     name: "create_arrow_line_element",
     description: `Create a new Plait Draw Arrow Line element, such as straight, curve, elbow, etc.
-    There can be multiple texts on a line. The position of the text on the line is represented by position(0-1), usually 0.5 means it is in the middle..`,
+    There can be multiple texts on a line. The position of the text on the line is represented by position(0-1), usually 0.5 means it is in the middle.
+    If the two graphs have two-way arrows, you need to set the two lines not to overlap.
+    You need to choose the appropriate arrow shape according to different scenarios, curve is suitable for some illustrative scenarios, and elbow is suitable for standard flowcharts.`,
     inputSchema: {
       type: "object",
       properties: {
